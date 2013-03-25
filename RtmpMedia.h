@@ -22,24 +22,24 @@ namespace ppbox
                 boost::asio::io_service & io_svc,
                 framework::string::Url const & url);
 
-            ~RtmpMedia();
+            virtual ~RtmpMedia();
 
         public:
-            void async_open(
+            virtual void async_open(
                 response_type const & resp);
 
-            void cancel(
+            virtual void cancel(
                 boost::system::error_code & ec);
 
-            void close(
+            virtual void close(
                 boost::system::error_code & ec);
 
         public:
-            bool get_basic_info(
+            virtual bool get_basic_info(
                 ppbox::data::MediaBasicInfo & info,
                 boost::system::error_code & ec) const;
 
-            bool get_info(
+            virtual bool get_info(
                 ppbox::data::MediaInfo & info,
                 boost::system::error_code & ec) const;
 
