@@ -122,6 +122,7 @@ namespace ppbox
         {
             feature.piece_size = 1024;
             feature.packet_max_size = 1024 * 100;
+            feature.buffer_size = 1024 * 1024 * 2; // 2M
             feature.prepare_size = 1024 * 10;
             ec.clear();
             return true;
