@@ -20,9 +20,10 @@ namespace ppbox
         FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.rtmpc.RtmpSource", framework::logger::Debug);
 
         RtmpSource::RtmpSource(
-            RtmpClient & rtmp)
-            : SourceBase(rtmp.get_io_service())
-            , rtmp_(rtmp)
+            boost::asio::io_service & io_svc)
+            : ppbox::data::UrlSource(io_svc)
+            , client_(io_svc)
+            , open_step_(0)
         {
             RtmpDataMessage0 data0;
             RtmpDataMessage3 data3;
@@ -35,22 +36,118 @@ namespace ppbox
             msg.reset(audio);
         }
 
-        RtmpSource::~RtmpSource() {}
+        RtmpSource::~RtmpSource()
+        {
+        }
+
+        boost::system::error_code RtmpSource::open(
+            framework::string::Url const & url, 
+            boost::uint64_t beg, 
+            boost::uint64_t end, 
+            boost::system::error_code & ec)
+        {
+            url_ = url;
+            open_step_ = 1;
+            is_open(ec);
+            return ec;
+        }
+
+        void RtmpSource::async_open(
+            framework::string::Url const & url, 
+            boost::uint64_t beg, 
+            boost::uint64_t end, 
+            response_type const & resp)
+        {
+            url_ = url;
+            resp_ = resp;
+            handle_open(boost::system::error_code());
+        }
+
+        void RtmpSource::handle_open(
+            boost::system::error_code const & ec)
+        {
+            if (ec) {
+                response(ec);
+                return;
+            }
+
+            switch (open_step_) {
+                case 0:
+                    open_step_ = 1;
+                    client_.async_connect(url_, 
+                        boost::bind(&RtmpSource::handle_open, this, _1));
+                    break;
+                case 1:
+                    open_step_ = 2;
+                    client_.async_play(
+                        boost::bind(&RtmpSource::handle_open, this, _1));
+                    break;
+                case 2:
+                    open_step_ = 3;
+                    client_.set_read_parallel(true);
+                    response(ec);
+                    break;
+                case 4: // cancel
+                    response(boost::asio::error::operation_aborted);
+                    break;
+                default:
+                    assert(0);
+            }
+        }
+
+        void RtmpSource::response(
+            boost::system::error_code const & ec)
+        {
+            response_type resp;
+            resp.swap(resp_);
+            resp(ec);
+        }
+
+        bool RtmpSource::is_open(
+            boost::system::error_code & ec)
+        {
+            if (open_step_ == 3) {
+                ec.clear();
+                return true;
+            }
+
+            switch (open_step_) {
+                case 1:
+                    if (client_.connect(url_, ec))
+                        break;
+                    open_step_ = 2;
+                case 2:
+                    if (client_.play(ec))
+                        break;
+                    open_step_ = 3;
+                    client_.set_read_parallel(true);
+                default:
+                    assert(0);
+            }
+
+            return !ec;
+        }
+
+        boost::system::error_code RtmpSource::close(
+            boost::system::error_code & ec)
+        {
+            return client_.close(ec);
+        }
 
         boost::system::error_code RtmpSource::cancel(
             boost::system::error_code & ec)
         {
-            return rtmp_.cancel_forever(ec);
+            return client_.cancel_forever(ec);
         }
 
         size_t RtmpSource::private_read_some(
-            util::stream::StreamMutableBuffers const & buffers, 
+            buffers_t const & buffers,
             boost::system::error_code & ec)
         {
-            rtmp_.tick(ec);
+            client_.tick(ec);
             RtmpMessageHeaderEx & header = 
                 *boost::asio::buffer_cast<RtmpMessageHeaderEx *>(*buffers.begin());
-            size_t n = rtmp_.read_raw_msg(header, util::buffers::sub_buffers(buffers, sizeof(header)), ec);
+            size_t n = client_.read_raw_msg(header, util::buffers::sub_buffers(buffers, sizeof(header)), ec);
             return n ? n + sizeof(header) : 0;
         }
 
@@ -80,21 +177,21 @@ namespace ppbox
         };
 
         void RtmpSource::private_async_read_some(
-            util::stream::StreamMutableBuffers const & buffers, 
-            util::stream::StreamHandler const & handler)
+            buffers_t const & buffers,
+            handler_t const & handler)
         {
             boost::system::error_code ec;
-            rtmp_.tick(ec);
+            client_.tick(ec);
             RtmpMessageHeaderEx & header = 
                 *boost::asio::buffer_cast<RtmpMessageHeaderEx *>(*buffers.begin());
-            rtmp_.async_read_raw_msg(header, 
+            client_.async_read_raw_msg(header, 
                 util::buffers::sub_buffers(buffers, sizeof(header)), 
                 rtmp_source_read_handler(*this, buffers, handler));
         }
 
         void RtmpSource::handle_read_some(
-            util::stream::StreamMutableBuffers const & buffers,
-            util::stream::StreamHandler const & handler, 
+            buffers_t const & buffers,
+            handler_t const & handler, 
             boost::system::error_code const & ec, 
             size_t bytes_transferred)
         {
@@ -111,14 +208,14 @@ namespace ppbox
             bool non_block, 
             boost::system::error_code & ec)
         {
-            return rtmp_.set_non_block(non_block, ec);
+            return client_.set_non_block(non_block, ec);
         }
 
         boost::system::error_code RtmpSource::set_time_out(
             boost::uint32_t time_out, 
             boost::system::error_code & ec)
         {
-            return rtmp_.set_time_out(time_out, ec);
+            return client_.set_time_out(time_out, ec);
         }
 
         bool RtmpSource::continuable(

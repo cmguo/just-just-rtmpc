@@ -20,16 +20,8 @@ namespace ppbox
             boost::asio::io_service & io_svc,
             framework::string::Url const & url)
             : PacketMedia(io_svc, url)
-            , client_(io_svc)
-            , source_(client_)
-            , open_step_(0)
-            , connect_url_(url_)
+            , source_(io_svc)
         {
-            //connect_url_.param_clear();
-            std::string::size_type pos = connect_url_.path().find('/', 1);
-            path_ = connect_url_.path_all().substr(pos + 1);
-            connect_url_.path(connect_url_.path().substr(0, pos));
-
             boost::system::error_code ec;
             PacketMedia::get_basic_info(info_, ec);
             info_.format = "rtm";
@@ -42,20 +34,19 @@ namespace ppbox
         void RtmpMedia::async_open(
             MediaBase::response_type const & resp)
         {
-            resp_ = resp;
-            handle_async(boost::system::error_code());
+            source_.async_open(url_, resp);
         }
 
         void RtmpMedia::cancel(
             boost::system::error_code & ec)
         {
-            client_.cancel(ec);
+            source_.cancel(ec);
         }
 
         void RtmpMedia::close(
             boost::system::error_code & ec)
         {
-            client_.close(ec);
+            source_.close(ec);
         }
 
         bool RtmpMedia::get_basic_info(
@@ -74,46 +65,6 @@ namespace ppbox
             info = info_;
             ec.clear();
             return true;
-        }
-
-        void RtmpMedia::handle_async(
-            boost::system::error_code const & ec)
-        {
-            if (ec) {
-                response(ec);
-                return;
-            }
-
-            switch (open_step_) {
-                case 0:
-                    open_step_ = 1;
-                    client_.async_connect(connect_url_, 
-                        boost::bind(&RtmpMedia::handle_async, this, _1));
-                    break;
-                case 1:
-                    open_step_ = 2;
-                    client_.async_play(path_, 
-                        boost::bind(&RtmpMedia::handle_async, this, _1));
-                    break;
-                case 2:
-                    open_step_ = 3;
-                    client_.set_read_parallel(true);
-                    response(ec);
-                    break;
-                case 4: // cancel
-                    response(boost::asio::error::operation_aborted);
-                    break;
-                default:
-                    assert(0);
-            }
-        }
-
-        void RtmpMedia::response(
-            boost::system::error_code const & ec)
-        {
-            MediaBase::response_type resp;
-            resp.swap(resp_);
-            resp(ec);
         }
 
         bool RtmpMedia::get_packet_feature(

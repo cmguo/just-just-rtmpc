@@ -58,13 +58,8 @@ namespace ppbox
                 boost::system::error_code const & ec);
 
         private:
-            util::protocol::RtmpClient client_;
             RtmpSource source_;
-            size_t open_step_;
-            framework::string::Url connect_url_;
-            std::string path_;
             ppbox::data::MediaInfo info_;
-            response_type resp_;
         };
 
         PPBOX_REGISTER_MEDIA_BY_PROTOCOL("rtmp", RtmpMedia);
