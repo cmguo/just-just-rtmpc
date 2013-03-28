@@ -25,6 +25,14 @@ namespace ppbox
                 ppbox::demux::Sample & sample,
                 boost::system::error_code & ec);
 
+            virtual bool get_next_sample(
+                 ppbox::demux::Sample & sample,
+                boost::system::error_code & ec);
+
+            virtual bool get_last_sample(
+                 ppbox::demux::Sample & sample,
+                boost::system::error_code & ec);
+
         private:
             ppbox::avformat::FlvTag tag_;
             boost::uint32_t video_track_;

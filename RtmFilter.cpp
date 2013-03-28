@@ -94,7 +94,7 @@ namespace ppbox
                         if (tag_.VideoHeader.AVCPacketType != 1)
                             sample.flags |= sample.config;
                         sample.cts_delta = tag_.VideoHeader.CompositionTime;
-                        std::cout << "sample track = " << sample.itrack << ", dts = " << sample.dts << ", cts_delta = " << sample.cts_delta << std::endl;
+                        //std::cout << "sample track = " << sample.itrack << ", dts = " << sample.dts << ", cts_delta = " << sample.cts_delta << std::endl;
                         break;
                     case FlvTagType::DATA:
                         ia >> tag_.DataTag;
@@ -113,6 +113,32 @@ namespace ppbox
                 sample.context = &tag_;
             }
 
+            return true;
+        }
+
+        bool RtmFilter::get_next_sample(
+            Sample & sample,
+            boost::system::error_code & ec)
+        {
+            if (!Filter::get_next_sample(sample, ec))
+                return false;
+
+            RtmpMessageHeaderEx header = 
+                *boost::asio::buffer_cast<RtmpMessageHeaderEx const *>(sample.data.front());
+            sample.dts = header.timestamp;
+            return true;
+        }
+
+        bool RtmFilter::get_last_sample(
+            Sample & sample,
+            boost::system::error_code & ec)
+        {
+            if (!Filter::get_last_sample(sample, ec))
+                return false;
+
+            RtmpMessageHeaderEx header = 
+                *boost::asio::buffer_cast<RtmpMessageHeaderEx const *>(sample.data.front());
+            sample.dts = header.timestamp;
             return true;
         }
 
