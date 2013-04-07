@@ -2,10 +2,7 @@
 
 #include "ppbox/rtmpc/Common.h"
 #include "ppbox/rtmpc/RtmpcModule.h"
-#define PPBOX_ENABLE_REGISTER_CLASS
-#include "ppbox/rtmpc/RtmpSource.h"
-#include "ppbox/rtmpc/RtmpMedia.h"
-#include "ppbox/rtmpc/RtmDemuxer.h"
+#include "ppbox/rtmpc/ClassRegister.h"
 
 namespace ppbox
 {
