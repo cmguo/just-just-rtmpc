@@ -56,7 +56,6 @@ namespace ppbox
                     info.index = sample.itrack;
                     info.start_time = 0;
                     stream_infos_.push_back(info);
-                    drop_sample(); // 清除没用的 sample
                 } else {
                     if (tag->Type == FlvTagType::DATA && tag->DataTag.Name.String.StringData == "onMetaData") {
                         meta_.from_data(tag->DataTag.Value);
@@ -64,6 +63,8 @@ namespace ppbox
                             media_info_.duration = meta_.duration;
                         }
                     }
+                }
+                if (!tag->is_sample) {
                     drop_sample(); // 清除没用的 sample
                 }
                 if (stream_infos_.size() == 2) {

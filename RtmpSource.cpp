@@ -29,11 +29,13 @@ namespace ppbox
             RtmpDataMessage3 data3;
             RtmpVideoMessage video;
             RtmpAudioMessage audio;
+            RtmpAggregateMessage aggregate;
             RtmpMessage msg;
             msg.reset(data0);
             msg.reset(data3);
             msg.reset(video);
             msg.reset(audio);
+            msg.reset(aggregate);
         }
 
         RtmpSource::~RtmpSource()
