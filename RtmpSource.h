@@ -62,6 +62,9 @@ namespace ppbox
             virtual bool continuable(
                 boost::system::error_code const & ec);
 
+        public:
+            bool is_record() const;
+
         private:
             // implement util::stream::Source
             virtual std::size_t private_read_some(

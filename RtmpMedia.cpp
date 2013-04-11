@@ -24,6 +24,7 @@ namespace ppbox
         {
             boost::system::error_code ec;
             PacketMedia::get_basic_info(info_, ec);
+            info_.type = info_.live;
             info_.format = "rtm";
         }
 
@@ -34,7 +35,20 @@ namespace ppbox
         void RtmpMedia::async_open(
             MediaBase::response_type const & resp)
         {
-            source_.async_open(url_, resp);
+            source_.async_open(url_, 
+                boost::bind(&RtmpMedia::handle_open, this, _1, resp));
+        }
+
+        void RtmpMedia::handle_open(
+            boost::system::error_code const & ec, 
+            MediaBase::response_type const & resp)
+        {
+            if (!ec && source_.is_record()) {
+                ((ppbox::data::MediaInfo &)info_).type = info_.vod;
+                info_.flags |= info_.f_seekable;
+                info_.flags |= info_.f_pauseable;
+            }
+            resp(ec);
         }
 
         void RtmpMedia::cancel(
@@ -64,7 +78,7 @@ namespace ppbox
         {
             info = info_;
             ec.clear();
-            return true;
+            return PacketMedia::get_info(info, ec);
         }
 
         bool RtmpMedia::get_packet_feature(

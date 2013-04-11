@@ -226,5 +226,10 @@ namespace ppbox
             return ec == boost::asio::error::would_block;
         }
 
+        bool RtmpSource::is_record() const
+        {
+            return client_.context().read.stream_is_record(1);
+        }
+
     } // namespace data
 } // namespace ppbox

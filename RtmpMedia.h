@@ -51,11 +51,9 @@ namespace ppbox
             virtual ppbox::data::SourceBase & source();
 
         private:
-            void handle_async(
-                boost::system::error_code const & ec);
-
-            void response(
-                boost::system::error_code const & ec);
+            void handle_open(
+                boost::system::error_code const & ec, 
+                MediaBase::response_type const & resp);
 
         private:
             RtmpSource source_;
