@@ -3,7 +3,7 @@
 #ifndef _PPBOX_RTMPC_RTM_FILTER_H_
 #define _PPBOX_RTMPC_RTM_FILTER_H_
 
-#include "ppbox/demux/packet/Filter.h"
+#include <ppbox/demux/packet/Filter.h>
 
 #include <ppbox/avformat/flv/FlvTagType.h>
 
