@@ -175,9 +175,9 @@ namespace ppbox
                     if (audio_track_ == boost::uint32_t(-1))
                         audio_track_ = video_track_ + 1;
                     sample.itrack = audio_track_;
-                    sample.flags = sample.sync;
+                    sample.flags = sample.f_sync;
                     if (tag_.AudioHeader.AACPacketType != 1)
-                        sample.flags |= sample.config;
+                        sample.flags |= sample.f_config;
                     sample.cts_delta = 0;
                     break;
                 case FlvTagType::VIDEO:
@@ -191,9 +191,9 @@ namespace ppbox
                     sample.itrack = video_track_;
                     sample.flags = 0;
                     if (tag_.VideoHeader.FrameType == FlvFrameType::KEY)
-                        sample.flags |= sample.sync;
+                        sample.flags |= sample.f_sync;
                     if (tag_.VideoHeader.AVCPacketType != 1)
-                        sample.flags |= sample.config;
+                        sample.flags |= sample.f_config;
                     sample.cts_delta = tag_.VideoHeader.CompositionTime;
                     //std::cout << "sample track = " << sample.itrack << ", dts = " << sample.dts << ", cts_delta = " << sample.cts_delta << std::endl;
                     break;
@@ -232,9 +232,9 @@ namespace ppbox
                 tag_.DataSize = data_offset + tag_.DataSize - tag_.data_offset;
             } else {
                 tag_.is_sample = false;
-                sample.flags |= sample.config; // drop this sample
+                sample.flags |= sample.f_config; // drop this sample
             }
         }
 
-    } // namespace mux
+    } // namespace rtmpc
 } // namespace ppbox

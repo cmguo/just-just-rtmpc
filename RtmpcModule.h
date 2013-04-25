@@ -8,9 +8,6 @@ namespace ppbox
     namespace rtmpc
     {
 
-        class RtmpSession;
-        class RtmpDispatcher;
-
         class RtmpcModule 
             : public ppbox::common::CommonModuleBase<RtmpcModule>
         {

@@ -61,7 +61,7 @@ namespace ppbox
             cycle_buffer_t buf_;
         };
 
-    } // namespace mux
+    } // namespace rtmpc
 } // namespace ppbox
 
 #endif // _PPBOX_RTMPC_RTM_FILTER_H_

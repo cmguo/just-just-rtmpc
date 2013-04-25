@@ -1,3 +1,5 @@
+// RtmpSource.cpp
+
 #include "ppbox/rtmpc/Common.h"
 #include "ppbox/rtmpc/RtmpSource.h"
 
@@ -231,5 +233,5 @@ namespace ppbox
             return client_.context().read.stream_is_record(1);
         }
 
-    } // namespace data
+    } // namespace rtmpc
 } // namespace ppbox
