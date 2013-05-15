@@ -3,8 +3,10 @@
 #include "ppbox/rtmpc/Common.h"
 #include "ppbox/rtmpc/RtmFilter.h"
 
-#include <ppbox/avformat/stream/SampleBuffers.h>
 using namespace ppbox::avformat;
+
+#include <ppbox/avbase/stream/SampleBuffers.h>
+using namespace ppbox::avbase;
 
 #include <util/archive/ArchiveBuffer.h>
 #include <util/protocol/rtmp/RtmpMessage.hpp>
