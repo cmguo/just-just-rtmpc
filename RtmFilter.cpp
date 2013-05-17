@@ -3,6 +3,7 @@
 #include "ppbox/rtmpc/Common.h"
 #include "ppbox/rtmpc/RtmFilter.h"
 
+#include <ppbox/avformat/flv/FlvEnum.h>
 using namespace ppbox::avformat;
 
 #include <ppbox/avbase/stream/SampleBuffers.h>
