@@ -57,7 +57,7 @@ namespace ppbox
                     info.start_time = 0;
                     stream_infos_.push_back(info);
                 } else {
-                    if (tag->Type == FlvTagType::DATA && tag->DataTag.Name.String.StringData == "onMetaData") {
+                    if (tag->Type == FlvTagType::DATA && tag->DataTag.Name == "onMetaData") {
                         meta_.from_data(tag->DataTag.Value);
                         if (meta_.duration != 0) {
                             media_info_.duration = meta_.duration;
