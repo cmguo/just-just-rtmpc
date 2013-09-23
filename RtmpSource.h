@@ -3,7 +3,7 @@
 #ifndef _PPBOX_RTMPC_RTMP_SOURCE_H_
 #define _PPBOX_RTMPC_RTMP_SOURCE_H_
 
-#include <ppbox/data/base/UrlSource.h>
+#include <util/stream/UrlSource.h>
 
 #include <util/protocol/rtmp/RtmpClient.h>
 
@@ -15,7 +15,7 @@ namespace ppbox
         struct rtmp_source_read_handler;
 
         class RtmpSource
-            : public ppbox::data::UrlSource
+            : public util::stream::UrlSource
         {
         public:
             RtmpSource(
@@ -24,13 +24,13 @@ namespace ppbox
             virtual ~RtmpSource();
 
         public:
-            virtual boost::system::error_code open(
+            virtual bool open(
                 framework::string::Url const & url, 
                 boost::uint64_t beg, 
                 boost::uint64_t end, 
                 boost::system::error_code & ec);
 
-            using ppbox::data::UrlSource::open;
+            using util::stream::UrlSource::open;
 
             virtual void async_open(
                 framework::string::Url const & url, 
@@ -38,24 +38,24 @@ namespace ppbox
                 boost::uint64_t end, 
                 response_type const & resp);
 
-            using ppbox::data::UrlSource::async_open;
+            using util::stream::UrlSource::async_open;
 
             virtual bool is_open(
                 boost::system::error_code & ec);
 
-            virtual boost::system::error_code close(
+            virtual bool close(
                 boost::system::error_code & ec);
 
         public:
-            virtual boost::system::error_code cancel(
+            virtual bool cancel(
                 boost::system::error_code & ec);
 
         public:
-            virtual boost::system::error_code set_non_block(
+            virtual bool set_non_block(
                 bool non_block, 
                 boost::system::error_code & ec);
 
-            virtual boost::system::error_code set_time_out(
+            virtual bool set_time_out(
                 boost::uint32_t time_out, 
                 boost::system::error_code & ec);
 
@@ -97,7 +97,7 @@ namespace ppbox
             framework::string::Url url_;
         };
 
-        PPBOX_REGISTER_URL_SOURCE("rtmp", RtmpSource);
+        UTIL_REGISTER_URL_SOURCE("rtmp", RtmpSource);
 
     } // namespace data
 } // namespace ppbox

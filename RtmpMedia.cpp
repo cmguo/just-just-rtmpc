@@ -93,7 +93,7 @@ namespace ppbox
             return true;
         }
 
-        ppbox::data::SourceBase & RtmpMedia::source()
+        util::stream::Source & RtmpMedia::source()
         {
             return source_;
         }
