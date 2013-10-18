@@ -25,6 +25,7 @@ namespace ppbox
             boost::system::error_code ec;
             PacketMedia::get_basic_info(info_, ec);
             info_.type = info_.live;
+            //info_.flags |= ppbox::data::PacketMediaFlags::f_non_ordered;
             info_.format = "rtm";
         }
 
@@ -44,7 +45,7 @@ namespace ppbox
             MediaBase::response_type const & resp)
         {
             if (!ec && source_.is_record()) {
-                ((ppbox::data::MediaInfo &)info_).type = info_.vod;
+                info_.type = info_.vod;
                 info_.flags |= info_.f_seekable;
                 info_.flags |= info_.f_pauseable;
             }
