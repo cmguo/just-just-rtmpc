@@ -213,6 +213,7 @@ namespace ppbox
                     buf_.commit(sample.size);
                     is_save_sample_ = true;
                     break;
+                case FlvTagType::DATA3:
                 case FlvTagType::DATA:
                     ia >> tag_.DataTag;
                     tag_.is_sample = false;
@@ -221,6 +222,7 @@ namespace ppbox
 
                     sample.itrack = boost::uint32_t(-1);
                     sample.flags = 0;
+                    sample.flags |= sample.f_config;
                     sample.cts_delta = 0;
                     break;
                 default:
