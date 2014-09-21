@@ -105,7 +105,6 @@ namespace ppbox
             RtmpMessageTraits::i_archive_t ia(buf_);
             ia >> (FlvTagHeader &)tag_;
 
-            //sample.slice(sample_);
             parse_sub_types(buf_, sample, ec);
 
             sample.dts =  sample_.dts + tag_.Timestamp;

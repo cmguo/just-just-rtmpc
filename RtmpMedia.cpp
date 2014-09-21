@@ -26,7 +26,7 @@ namespace ppbox
             PacketMedia::get_basic_info(info_, ec);
             info_.type = info_.live;
             //info_.flags |= ppbox::data::PacketMediaFlags::f_non_ordered;
-            info_.format = "rtm";
+            info_.format_type = "rtm";
         }
 
         RtmpMedia::~RtmpMedia()
@@ -65,7 +65,7 @@ namespace ppbox
         }
 
         bool RtmpMedia::get_basic_info(
-            ppbox::data::MediaBasicInfo & info,
+            ppbox::avbase::MediaBasicInfo & info,
             boost::system::error_code & ec) const
         {
             info = info_;
@@ -74,7 +74,7 @@ namespace ppbox
         }
 
         bool RtmpMedia::get_info(
-            ppbox::data::MediaInfo & info,
+            ppbox::avbase::MediaInfo & info,
             boost::system::error_code & ec) const
         {
             info = info_;
