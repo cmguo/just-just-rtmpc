@@ -1,31 +1,31 @@
 // RtmDemuxer.cpp
 
-#include "ppbox/rtmpc/Common.h"
-#include "ppbox/rtmpc/RtmDemuxer.h"
-#include "ppbox/rtmpc/RtmFilter.h"
+#include "just/rtmpc/Common.h"
+#include "just/rtmpc/RtmDemuxer.h"
+#include "just/rtmpc/RtmFilter.h"
 
-#include <ppbox/demux/basic/flv/FlvStream.h>
-using namespace ppbox::demux;
+#include <just/demux/basic/flv/FlvStream.h>
+using namespace just::demux;
 
-#include <ppbox/avformat/flv/FlvTagType.h>
-using namespace ppbox::avformat;
+#include <just/avformat/flv/FlvTagType.h>
+using namespace just::avformat;
 
 #include <util/buffers/BuffersCopy.h>
 
 #include <framework/logger/Logger.h>
 #include <framework/logger/StreamRecord.h>
 
-FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.rtmpc.RtmDemuxer", framework::logger::Debug);
+FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("just.rtmpc.RtmDemuxer", framework::logger::Debug);
 
-namespace ppbox
+namespace just
 {
     namespace rtmpc
     {
 
         RtmDemuxer::RtmDemuxer(
             boost::asio::io_service & io_svc, 
-            ppbox::data::PacketMedia & media)
-            : ppbox::demux::PacketDemuxer(io_svc, media)
+            just::data::PacketMedia & media)
+            : just::demux::PacketDemuxer(io_svc, media)
             , filter_(NULL)
         {
         }
@@ -75,4 +75,4 @@ namespace ppbox
         }
 
     } // namespace rtmpc
-} // namespace ppbox
+} // namespace just

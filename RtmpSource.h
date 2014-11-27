@@ -1,13 +1,13 @@
 // RtmpSource.h
 
-#ifndef _PPBOX_RTMPC_RTMP_SOURCE_H_
-#define _PPBOX_RTMPC_RTMP_SOURCE_H_
+#ifndef _JUST_RTMPC_RTMP_SOURCE_H_
+#define _JUST_RTMPC_RTMP_SOURCE_H_
 
 #include <util/stream/UrlSource.h>
 
 #include <util/protocol/rtmp/RtmpClient.h>
 
-namespace ppbox
+namespace just
 {
     namespace rtmpc
     {
@@ -100,6 +100,6 @@ namespace ppbox
         UTIL_REGISTER_URL_SOURCE("rtmp", RtmpSource);
 
     } // namespace data
-} // namespace ppbox
+} // namespace just
 
-#endif // _PPBOX_RTMPC_RTMP_SOURCE_H_
+#endif // _JUST_RTMPC_RTMP_SOURCE_H_

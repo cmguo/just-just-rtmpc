@@ -1,7 +1,7 @@
 // RtmpMedia.cpp
 
-#include "ppbox/rtmpc/Common.h"
-#include "ppbox/rtmpc/RtmpMedia.h"
+#include "just/rtmpc/Common.h"
+#include "just/rtmpc/RtmpMedia.h"
 
 #include <framework/logger/Logger.h>
 #include <framework/logger/StreamRecord.h>
@@ -9,9 +9,9 @@
 
 #include <boost/bind.hpp>
 
-FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.rtmpc.RtmpMedia", framework::logger::Debug);
+FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("just.rtmpc.RtmpMedia", framework::logger::Debug);
 
-namespace ppbox
+namespace just
 {
     namespace rtmpc
     {
@@ -25,7 +25,7 @@ namespace ppbox
             boost::system::error_code ec;
             PacketMedia::get_basic_info(info_, ec);
             info_.type = info_.live;
-            //info_.flags |= ppbox::data::PacketMediaFlags::f_non_ordered;
+            //info_.flags |= just::data::PacketMediaFlags::f_non_ordered;
             info_.format_type = "rtm";
         }
 
@@ -65,7 +65,7 @@ namespace ppbox
         }
 
         bool RtmpMedia::get_basic_info(
-            ppbox::avbase::MediaBasicInfo & info,
+            just::avbase::MediaBasicInfo & info,
             boost::system::error_code & ec) const
         {
             info = info_;
@@ -74,7 +74,7 @@ namespace ppbox
         }
 
         bool RtmpMedia::get_info(
-            ppbox::avbase::MediaInfo & info,
+            just::avbase::MediaInfo & info,
             boost::system::error_code & ec) const
         {
             info = info_;
@@ -83,7 +83,7 @@ namespace ppbox
         }
 
         bool RtmpMedia::get_packet_feature(
-            ppbox::data::PacketFeature & feature,
+            just::data::PacketFeature & feature,
             boost::system::error_code & ec) const
         {
             feature.piece_size = 1024;
@@ -101,4 +101,4 @@ namespace ppbox
 
 
     } // rtmpc
-} // ppbox
+} // just

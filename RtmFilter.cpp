@@ -1,20 +1,20 @@
 // RtmFilter.cpp
 
-#include "ppbox/rtmpc/Common.h"
-#include "ppbox/rtmpc/RtmFilter.h"
+#include "just/rtmpc/Common.h"
+#include "just/rtmpc/RtmFilter.h"
 
-#include <ppbox/avformat/flv/FlvEnum.h>
-using namespace ppbox::avformat;
+#include <just/avformat/flv/FlvEnum.h>
+using namespace just::avformat;
 
-#include <ppbox/avbase/stream/SampleBuffers.h>
-using namespace ppbox::avbase;
+#include <just/avbase/stream/SampleBuffers.h>
+using namespace just::avbase;
 
 #include <util/archive/ArchiveBuffer.h>
 #include <util/protocol/rtmp/RtmpMessage.hpp>
 #include <util/protocol/rtmp/RtmpMessageData.h>
 using namespace util::protocol;
 
-namespace ppbox
+namespace just
 {
     namespace rtmpc
     {
@@ -241,4 +241,4 @@ namespace ppbox
         }
 
     } // namespace rtmpc
-} // namespace ppbox
+} // namespace just

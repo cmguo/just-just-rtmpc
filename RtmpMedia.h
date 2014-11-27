@@ -1,21 +1,21 @@
 // RtmpMedia.h
 
-#ifndef _PPBOX_RTMPC_RTMP_MEDIA_H_
-#define _PPBOX_RTMPC_RTMP_MEDIA_H_
+#ifndef _JUST_RTMPC_RTMP_MEDIA_H_
+#define _JUST_RTMPC_RTMP_MEDIA_H_
 
-#include "ppbox/rtmpc/RtmpSource.h"
+#include "just/rtmpc/RtmpSource.h"
 
-#include <ppbox/data/packet/PacketMedia.h>
+#include <just/data/packet/PacketMedia.h>
 
 #include <util/protocol/rtmp/RtmpClient.h>
 
-namespace ppbox
+namespace just
 {
     namespace rtmpc
     {
 
         class RtmpMedia
-            : public ppbox::data::PacketMedia
+            : public just::data::PacketMedia
         {
         public:
             RtmpMedia(
@@ -36,16 +36,16 @@ namespace ppbox
 
         public:
             virtual bool get_basic_info(
-                ppbox::data::MediaBasicInfo & info,
+                just::data::MediaBasicInfo & info,
                 boost::system::error_code & ec) const;
 
             virtual bool get_info(
-                ppbox::data::MediaInfo & info,
+                just::data::MediaInfo & info,
                 boost::system::error_code & ec) const;
 
         public:
             virtual bool get_packet_feature(
-                ppbox::data::PacketFeature & feature,
+                just::data::PacketFeature & feature,
                 boost::system::error_code & ec) const;
 
             virtual util::stream::Source & source();
@@ -57,12 +57,12 @@ namespace ppbox
 
         private:
             RtmpSource source_;
-            ppbox::data::MediaInfo info_;
+            just::data::MediaInfo info_;
         };
 
-        PPBOX_REGISTER_MEDIA_BY_PROTOCOL("rtmp", RtmpMedia);
+        JUST_REGISTER_MEDIA_BY_PROTOCOL("rtmp", RtmpMedia);
 
     } // data
-} // ppbox
+} // just
 
-#endif // _PPBOX_RTMPC_RTMP_MEDIA_H_
+#endif // _JUST_RTMPC_RTMP_MEDIA_H_

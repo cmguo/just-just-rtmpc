@@ -1,5 +1,5 @@
 // Version.cpp
 
-#include "ppbox/rtmpc/Common.h"
+#include "just/rtmpc/Common.h"
 #define VERSION_SOURCE
-#include "ppbox/rtmpc/Version.h"
+#include "just/rtmpc/Version.h"

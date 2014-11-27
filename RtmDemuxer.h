@@ -1,13 +1,13 @@
 // RtmDemuxer.h
 
-#ifndef _PPBOX_RTMPC_RTM_DEMUXER_H_
-#define _PPBOX_RTMPC_RTM_DEMUXER_H_
+#ifndef _JUST_RTMPC_RTM_DEMUXER_H_
+#define _JUST_RTMPC_RTM_DEMUXER_H_
 
-#include "ppbox/demux/packet/PacketDemuxer.h"
+#include "just/demux/packet/PacketDemuxer.h"
 
-#include <ppbox/avformat/flv/FlvMetaData.h>
+#include <just/avformat/flv/FlvMetaData.h>
 
-namespace ppbox
+namespace just
 {
     namespace rtmpc
     {
@@ -15,12 +15,12 @@ namespace ppbox
         class RtmFilter;
 
         class RtmDemuxer
-            : public ppbox::demux::PacketDemuxer
+            : public just::demux::PacketDemuxer
         {
         public:
             RtmDemuxer(
                 boost::asio::io_service & io_svc, 
-                ppbox::data::PacketMedia & media);
+                just::data::PacketMedia & media);
 
             virtual ~RtmDemuxer();
 
@@ -29,13 +29,13 @@ namespace ppbox
                 boost::system::error_code & ec);
 
         private:
-            ppbox::avformat::FlvMetaData meta_;
+            just::avformat::FlvMetaData meta_;
             RtmFilter * filter_;
         };
 
-        PPBOX_REGISTER_PACKET_DEMUXER("rtm", RtmDemuxer);
+        JUST_REGISTER_PACKET_DEMUXER("rtm", RtmDemuxer);
 
     } // namespace rtmpc
-} // namespace ppbox
+} // namespace just
 
-#endif // _PPBOX_RTMPC_RTM_DEMUXER_H_
+#endif // _JUST_RTMPC_RTM_DEMUXER_H_

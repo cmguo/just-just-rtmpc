@@ -1,7 +1,7 @@
 // RtmpSource.cpp
 
-#include "ppbox/rtmpc/Common.h"
-#include "ppbox/rtmpc/RtmpSource.h"
+#include "just/rtmpc/Common.h"
+#include "just/rtmpc/RtmpSource.h"
 
 #include <util/protocol/rtmp/RtmpError.h>
 #include <util/protocol/rtmp/RtmpSocket.hpp>
@@ -14,12 +14,12 @@ using namespace util::protocol;
 #include <framework/logger/StreamRecord.h>
 #include <framework/logger/StringRecord.h>
 
-namespace ppbox
+namespace just
 {
     namespace rtmpc
     {
 
-        FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("ppbox.rtmpc.RtmpSource", framework::logger::Debug);
+        FRAMEWORK_LOGGER_DECLARE_MODULE_LEVEL("just.rtmpc.RtmpSource", framework::logger::Debug);
 
         RtmpSource::RtmpSource(
             boost::asio::io_service & io_svc)
@@ -234,4 +234,4 @@ namespace ppbox
         }
 
     } // namespace rtmpc
-} // namespace ppbox
+} // namespace just

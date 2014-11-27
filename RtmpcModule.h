@@ -1,15 +1,15 @@
 // RtmpcModule.h
 
-#ifndef _PPBOX_RTMPC_RTMPC_MODULE_H_
-#define _PPBOX_RTMPC_RTMPC_MODULE_H_
+#ifndef _JUST_RTMPC_RTMPC_MODULE_H_
+#define _JUST_RTMPC_RTMPC_MODULE_H_
 
-namespace ppbox
+namespace just
 {
     namespace rtmpc
     {
 
         class RtmpcModule 
-            : public ppbox::common::CommonModuleBase<RtmpcModule>
+            : public just::common::CommonModuleBase<RtmpcModule>
         {
         public:
             RtmpcModule(
@@ -24,6 +24,6 @@ namespace ppbox
         };
 
     } // namespace rtmpc
-} // namespace ppbox
+} // namespace just
 
-#endif // _PPBOX_RTMPC_RTMPC_MODULE_H_
+#endif // _JUST_RTMPC_RTMPC_MODULE_H_
